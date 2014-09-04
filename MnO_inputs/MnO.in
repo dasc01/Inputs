@@ -1,0 +1,82 @@
+# The pseudopotentials are in the main run directory
+ppdir {'../'}
+# Select to run the OBF version 
+dft OBF
+# Set this
+para_prefix{ mpirun -n 8 }
+# Legacy, must be here for now and should be 1
+control 0
+
+##############################
+# Convergence Params
+# Number of bands to use (includes valence right now, so we will have 36 unoccupied)
+nbands 40
+# k-point sampling, if not here will use defaults (could be higher)
+nkpt { 10 10 10 }
+# k-point sampling for calculating W (\chi)
+# Because we are interested in a limited region of real-space
+#  2x2x2 is good enough almost always
+paw.nkpt{ 2 2 2 }
+# Number of bands to use for the screening calculation (could be higher)
+paw.nbands 200
+# Real-space sampling for calcualting the action of W on a wave function
+cnbse.xmesh{ 6 6 6 }
+
+##############################
+# ABINIT style crystallographic info
+# 4.0279 angstroms
+acell { 5.94017794481194481194 5.94017794481194481194 5.94017794481194481194}
+
+rprim {
+ 1.0  0.0  0.0
+ 0.5  0.86602540378541871832   0.0
+ 0.5  0.28867516440791264766   1.63299321082347606450
+}
+
+natom 4
+ntypat 3
+typat { 1 2 3 3}
+
+xred {
+     0.000000000         0.000000000         0.000000000
+     0.500000000         0.500000000         0.500000000
+     0.250000000         0.250000000         0.250000000
+     0.750000000         0.750000000         0.750000000
+}
+
+znucl { 25 25 8 }
+zsymb { Mn1 Mn2 O }
+pp_list{
+mn.fhi
+mn.fhi
+o.fhi
+}
+
+ecut 100
+
+diemac 4.36
+
+paw.fill{ 8  o.fill }
+paw.opts{ 8  o.opts }
+
+#edge information
+nedges 2
+edges{ 
+3 1 0 
+4 1 0 }
+
+# radius for paw reconstruciton
+paw.shells{ 4.0 }
+cnbse.rad{ 4.0 }
+
+# spectral broadening in Hartree
+cnbse.broaden{ 0.02 }
+
+#Scaling Factor
+scfac 1.00
+
+#nspin
+nspin 2
+smag{
+starting_magnetization(1)=1,starting_magnetization(2)=-1,starting_magnetization(3)=0
+} 
